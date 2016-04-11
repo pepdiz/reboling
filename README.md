@@ -1,2 +1,2 @@
 # reboling
-libraries and code for rebol
+libraries, modules and code for rebol (mainly r3)
