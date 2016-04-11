@@ -5,12 +5,11 @@ rebol [
     Version: 1.0
     Date:       22-Mar-2007
     Purpose: { This script solves the googlejam 2016 challenge number 1 Counting Sheep 
-			Reads input from file input.txt and writes output to screen and also to file output.txt }
+			Reads input from file input.txt and writes to standard output }
     ]
 
 init: [ #"0" false #"1" false #"2" false #"3" false #"4" false #"5" false #"6" false #"7" false #"8" false #"9" false ]
 
-write %output.txt ""
 entrada: read/lines %input.txt
 
 nc: to-integer first entrada
@@ -32,7 +31,5 @@ for c 1 nc 1 [
 
 	if r = none [r: p]
 
-	l: join "Case #" [c ": " r ]
-	print l
-	write/lines/append %output.txt reduce [l]
+	print join "Case #" [c ":" ] r
 ]
