@@ -1,20 +1,18 @@
 rebol [
-	Author: [ "Pep Diz" eukelade@gmail.com ]
-	Title: "Counting Sheep"
+    Author: [ "Pep Diz" eukelade@gmail.com ]
+    Title: "Counting Sheep"
     File:  %googlejam-1.r
     Version: 1.0
-    Date:       22-Mar-2007
+    Date: 10-04-2016
     Purpose: { This script solves the googlejam 2016 challenge number 1 Counting Sheep 
-			Reads input from file input.txt and writes to standard output }
+		Reads input from file input.txt and writes to standard output }
     ]
 
 init: [ #"0" false #"1" false #"2" false #"3" false #"4" false #"5" false #"6" false #"7" false #"8" false #"9" false ]
 
 entrada: read/lines %input.txt
 
-nc: to-integer first entrada
-
-for c 1 nc 1 [
+for c 1 to-integer entrada/1 1 [
 	r: none
 	p: ""
 	n: entrada/(c + 1)
@@ -29,7 +27,5 @@ for c 1 nc 1 [
 		all extract/index dixitos 2 2
 	]
 
-	if r = none [r: p]
-
-	print join "Case #" [c ":" ] r
+	print [join "Case #" [c ":"] any [r p]]
 ]
