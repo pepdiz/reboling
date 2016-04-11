@@ -29,13 +29,14 @@ Purpose: {
 	generators are blocks where symbol _ represents the current sequence value to operate on to get next value
 	
 	ex: [-inf .. 100 | [_ + 2] ] is equivalent to [-inf .. 100 | 2 ]
-	    [2 .. 20 | [ _ * 2 ** _ ] ] expands to [2 
+	    [ 2 .. 6000000 | [_ + _ ** 2 ]] expands to [16 1024 4194304] 
 	
     lazysequences are sequences that deliver values on demand, you can get next value calling "next"  
     that is lazysequence are unevaluated sequence which get evaluated when asking for next value (lazy evaluation)
     allowing infinite sequence of numbers  (only integers allowed in this version)
     
-	} 
+}
+todo: { bignums! }
 ]
 
 context [
@@ -49,7 +50,7 @@ context [
   
   iseq: func [i [integer!] f [integer!] /local l] [l: reduce [i '.. f] if parse l srule [s: copy [] ts: l]]
   seq: func [ls [block!]] [ if parse ls srule [s: copy [] ts: ls]] 
-{ el intervalo inicial de la secuencia es abierto (la secuencia no incluye bl) }  
+{ el intervalo inicial de la secuencia es abierto (la secuencia no incluye bl): }  
   next: does [ if ts <> none [n: any reduce [op bl -inf] n: either integer? nv [nv + n] [to-integer do replace/all copy nv '_ n] if n <= any reduce [ul n] [append s n op: n ]] ]
 { si se quiere que el intervalo incluya el inicio (la secuencia empiece en bl), entonces definir next como: }
 { next: does [ if ts <> none [n: any reduce [op bl -inf] either n = bl [n] [n: either integer? nv [nv + n] [to-integer do replace/all copy nv '_ n] if n <= any reduce [ul n] [append s n op: n ]]] ] }
@@ -59,11 +60,7 @@ context [
   first: does [ either ts = none [unset!] [bl] ]
   last: does [ either ts = none [unset!] [ul] ]
   nth: func [n [integer!]] [ either ts = none [unset!] [s/:n] ]
-  
-  {old version -> next: make function! [[ls [block!] ][l: copy ls set [i n f] reduce ls n: 1 + any reduce [n i <-inf>] if n <= any reduce [f n + 1] [l/2: n n]]] }
-  
-  { next: make function! [[ls [block!] ][ if parse ls srule [ n: 1 + any reduce [op bl -inf] if n <= any reduce [ul n + 1] [op: n n]]] }
-  
+ 
   set 'lazynext :self/next
   set 'lazyseq :self/seq
   set 'lazyseqi :self/iseq
